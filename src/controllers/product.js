@@ -1,4 +1,4 @@
-const productsModel = require("../models/products");
+const productsModel = require("../models/legacy/prod");
 
 async function insertProduct(req, res) {
     const { name, category, price } = req.body;
