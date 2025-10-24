@@ -8,8 +8,5 @@ router.post("/",
     productsController.insertProduct
 );
 
-router.get("/",
-    productsController.getAllProducts
-);
 
 module.exports = router;
