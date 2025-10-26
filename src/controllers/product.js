@@ -3,7 +3,9 @@ const { Products } = require("../models");
 async function insertProduct(req, res) {
 
     try {
-        await Products.create(req.body);
+        const productData = {...req.body};
+
+        await Products.create(productData);
         res.status(201).send({ message: "Produto criado com sucesso" });
     } catch (error) {
         res.status(500).send({ message: "Internal Server Error" });

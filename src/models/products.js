@@ -51,6 +51,10 @@ const Products = sequelize.define("Products", {
     return: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+    image_url: {
+        type: DataTypes.TEXT,
+        allowNull: true,
     }
 })
 
