@@ -3,7 +3,7 @@ const router = express.Router();
 const productsMiddleware = require("../middlewares/product");
 const productsController = require("../controllers/product");
 
-router.post("/", 
+router.post("/",
     productsMiddleware.validateInsertProduct,
     productsController.insertProduct
 );
