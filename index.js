@@ -5,8 +5,10 @@ const productsRoutes = require("./src/routes/products");
 const categoriesRoutes = require("./src/routes/categories");
 const usersRoutes = require("./src/routes/user");
 const authRoutes = require("./src/routes/auth");
+const cors = require("cors");
 require("./src/models")
 
+app.use(cors());
 app.use(express.json());
 const port = 4467;
 

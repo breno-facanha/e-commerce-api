@@ -8,7 +8,12 @@ async function login(req, res) {
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );
-        res.status(200).send({ token });
+        res.status(200).send({ token, user: {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role
+        } });
     } catch (error) {
         res.status(500).send({ message: "Internal Server Error" });
     }

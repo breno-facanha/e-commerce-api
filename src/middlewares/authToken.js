@@ -1,25 +1,34 @@
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const { Users } =  require("../models")
+
 function authToken(allowedRoles = []) {
-    return (req, res, next) => {
-        const authHeader = req.headers['authorization'];
-        const token = authHeader && authHeader.split(' ')[1];
+    return  async (req, res, next) => {
+        const token = req.headers.authorization
 
         if (!token) {
-            return res.status(401).json({ message: 'Access token is missing' });
+            return res.status(401).send({ error: 'Token não fornecido.' });
         }
 
-        jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-            if (err) {
-                return res.status(403).json({ message: 'Invalid access token' });
-            }
+       try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            const user = await Users.findByPk(decoded.id);
 
-            if (allowedRoles.length && !allowedRoles.includes(user.role)) {
-                return res.status(403).json({ message: 'You do not have permission to access this resource' });
+            if (!user) {
+                return res.status(401).send({ error: 'Usuário não encontrado.' });
+            }
+            if (allowedRoles.length > 0 && !allowedRoles.includes(user.role)) {
+                return res.status(403).send({ error: 'Acesso negado.' });
             }
 
             req.user = user;
             next();
-        });
-    };
+        } catch (error) {
+            return res.status(401).send({ error: 'Token inválido.' });
+        }
+    }
 }
 
-module.exports = authToken;
+module.exports = {
+    authToken
+}

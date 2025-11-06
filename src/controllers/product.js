@@ -28,6 +28,15 @@ async function insertProduct(req, res) {
     }
 }
 
+// async function getAllProducts(req, res) {
+//     try {
+//         const products = await Products.findAll();
+//         res.status(200).send(products);
+//     } catch (error) {
+//         res.status(500).send({ message: "Internal Server Error" });
+//     }
+// }
+
 async function getAllProducts(req, res) {
     try {
         const products = await Products.findAll();
