@@ -1,21 +1,28 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken")
 
-async function login(req, res) {
+async function login(req, res){
     try {
-        const user = req.user ;
+        const user = req.user;
+
         const token = jwt.sign(
-            { id: user.id, email: user.email },
+            {id: user.id, email: user.email},
             process.env.JWT_SECRET,
-            { expiresIn: '1h' }
-        );
-        res.status(200).send({ token, user: {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            role: user.role
-        } });
+            {expiresIn: "30d"}
+        )
+
+        return res.send({
+            token,
+            user: {
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                image: user.image_url
+            }
+        })
     } catch (error) {
-        res.status(500).send({ message: "Internal Server Error" });
+        return res.status(500).send({
+            error: error.message
+        })
     }
 }
 
