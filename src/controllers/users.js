@@ -1,15 +1,18 @@
 const { sendEmail } = require("../helpers/email-services");
+const { templateEmail } = require("../helpers/templateEmail");
 const { Users } = require("../models");
 
 async function createUser(req, res){
     try {
         const user = await Users.create(req.body);
 
+        const template = await templateEmail(user.name, "https://google.com")
+
         await sendEmail(
             user.email,
             user.name,
             "Bem-vindo à nossa plataforma!",
-            `<h1>Olá, ${user.name}!</h1><p>Obrigado por se cadastrar em nossa plataforma.</p>`
+            template
         );
 
         res.status(201).send({ message: "Usuário criado com sucesso" });
