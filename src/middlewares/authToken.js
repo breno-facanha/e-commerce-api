@@ -17,6 +17,9 @@ function authToken(allowedRoles = []) {
             if (!user) {
                 return res.status(401).send({ error: 'Usuário não encontrado.' });
             }
+            if (!user.active) {
+                return res.status(401).send({ error: "Usuário não está ativo." });
+            }
             if (allowedRoles.length > 0 && !allowedRoles.includes(user.role)) {
                 return res.status(403).send({ error: 'Acesso negado.' });
             }

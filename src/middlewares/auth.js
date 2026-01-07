@@ -15,6 +15,10 @@ async function validateLogin(req, res, next) {
             return res.status(401).send({ error: "Usuário não encontrado" });
         }
 
+        if (!user.active) {
+            return res.status(400).send({ error: "Usuário não está ativo." });
+        }
+
         const matchPassword = await bcrypt.compare(password, user.password);
 
         if (!matchPassword) {
